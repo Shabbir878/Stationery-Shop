@@ -1,4 +1,4 @@
-# Stationery Shop B4A2V5
+# Stationery Shop
 
 ## Objective
 
