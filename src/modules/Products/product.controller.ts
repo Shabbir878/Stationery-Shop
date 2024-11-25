@@ -35,86 +35,38 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-// const getAllProducts = async (
-//   req: Request,
-//   res: Response,
-// ): Promise<Response> => {
-//   try {
-//     const searchTerm = req.query.searchTerm as string;
-
-//     if (searchTerm) {
-//       const result = await ProductServices.searchProductFromDB(searchTerm);
-//       return res.status(200).json({
-//         success: true,
-//         message: `Products retrieved successfully!`,
-//         data: result,
-//       });
-//     } else {
-//       const result = await ProductServices.getAllProductsFromDB();
-//       return res.status(200).json({
-//         success: true,
-//         message: 'Products retrieved successfully',
-//         data: result,
-//       });
-//     }
-//   } catch (error: any) {
-//     return res.status(500).json({
-//       success: false,
-//       message: 'Failed to retrieve products',
-//       error: formatErrorResponse(error),
-//       stack: error.stack || 'No stack trace available',
-//     });
-//   }
-// };
-
-const getAllProducts = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+const getAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const searchTerm = req.query.searchTerm as string;
 
+    let result;
     if (searchTerm) {
-      const result = await ProductServices.searchProductFromDB(searchTerm);
-      const formattedResults = result.map((product: any) => ({
-        _id: product._id,
-        name: product.name,
-        brand: product.brand,
-        price: product.price,
-        category: product.category,
-        description: product.description,
-        quantity: product.quantity,
-        inStock: product.inStock,
-        createdAt: product.createdAt,
-        updatedAt: product.updatedAt,
-      }));
-      return res.status(200).json({
-        success: true,
-        message: `Products retrieved successfully!`,
-        data: formattedResults,
-      });
+      result = await ProductServices.searchProductFromDB(searchTerm);
     } else {
-      const result = await ProductServices.getAllProductsFromDB();
-      const formattedResults = result.map((product: any) => ({
-        _id: product._id,
-        name: product.name,
-        brand: product.brand,
-        price: product.price,
-        category: product.category,
-        description: product.description,
-        quantity: product.quantity,
-        inStock: product.inStock,
-        createdAt: product.createdAt,
-        updatedAt: product.updatedAt,
-      }));
-      return res.status(200).json({
-        success: true,
-        message: 'Products retrieved successfully',
-        data: formattedResults,
-      });
+      result = await ProductServices.getAllProductsFromDB();
     }
+
+    // Format the results
+    const formattedResults = result.map((product: any) => ({
+      _id: product._id,
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      category: product.category,
+      description: product.description,
+      quantity: product.quantity,
+      inStock: product.inStock,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    }));
+
+    res.status(200).json({
+      success: true,
+      message: 'Products retrieved successfully',
+      data: formattedResults,
+    });
   } catch (error: any) {
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'Failed to retrieve products',
       error: formatErrorResponse(error),
