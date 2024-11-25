@@ -4,14 +4,45 @@ import { OrderServices } from './order.service';
 import { formatErrorResponse } from '../../error/formattedError';
 
 // Place an order
+// const createOrder = async (req: Request, res: Response) => {
+//   try {
+//     const validatedData = orderValidationSchema.parse(req.body);
+//     const order = await OrderServices.createOrder(validatedData);
+//     res.status(200).json({
+//       message: 'Order created successfully',
+//       success: true,
+//       data: order,
+//     });
+//   } catch (error: any) {
+//     res.status(500).json({
+//       message: 'Validation failed',
+//       success: false,
+//       error: formatErrorResponse(error),
+//       stack: error.stack || 'No stack trace available',
+//     });
+//   }
+// };
+
 const createOrder = async (req: Request, res: Response) => {
   try {
     const validatedData = orderValidationSchema.parse(req.body);
     const order = await OrderServices.createOrder(validatedData);
+
+    // Format the order object
+    const formattedOrder = {
+      _id: order._id,
+      email: order.email,
+      product: order.product,
+      quantity: order.quantity,
+      totalPrice: order.totalPrice,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+    };
+
     res.status(200).json({
       message: 'Order created successfully',
-      success: true,
-      data: order,
+      status: true,
+      data: formattedOrder,
     });
   } catch (error: any) {
     res.status(500).json({

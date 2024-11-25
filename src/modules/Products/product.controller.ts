@@ -8,10 +8,22 @@ const createProduct = async (req: Request, res: Response) => {
     const productData = req.body;
     const zodParsedData = productValidationSchema.parse(productData);
     const result = await ProductServices.createProductIntoDB(zodParsedData);
+
+    const formattedProduct = {
+      _id: result._id,
+      name: result.name,
+      brand: result.brand,
+      price: result.price,
+      category: result.category,
+      description: result.description,
+      quantity: result.quantity,
+      inStock: result.inStock,
+    };
+
     res.status(200).json({
       message: 'Product created successfully',
       success: true,
-      data: result,
+      data: formattedProduct,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -23,6 +35,38 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+// const getAllProducts = async (
+//   req: Request,
+//   res: Response,
+// ): Promise<Response> => {
+//   try {
+//     const searchTerm = req.query.searchTerm as string;
+
+//     if (searchTerm) {
+//       const result = await ProductServices.searchProductFromDB(searchTerm);
+//       return res.status(200).json({
+//         success: true,
+//         message: `Products retrieved successfully!`,
+//         data: result,
+//       });
+//     } else {
+//       const result = await ProductServices.getAllProductsFromDB();
+//       return res.status(200).json({
+//         success: true,
+//         message: 'Products retrieved successfully',
+//         data: result,
+//       });
+//     }
+//   } catch (error: any) {
+//     return res.status(500).json({
+//       success: false,
+//       message: 'Failed to retrieve products',
+//       error: formatErrorResponse(error),
+//       stack: error.stack || 'No stack trace available',
+//     });
+//   }
+// };
+
 const getAllProducts = async (
   req: Request,
   res: Response,
@@ -32,17 +76,41 @@ const getAllProducts = async (
 
     if (searchTerm) {
       const result = await ProductServices.searchProductFromDB(searchTerm);
+      const formattedResults = result.map((product: any) => ({
+        _id: product._id,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        category: product.category,
+        description: product.description,
+        quantity: product.quantity,
+        inStock: product.inStock,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      }));
       return res.status(200).json({
         success: true,
         message: `Products retrieved successfully!`,
-        data: result,
+        data: formattedResults,
       });
     } else {
       const result = await ProductServices.getAllProductsFromDB();
+      const formattedResults = result.map((product: any) => ({
+        _id: product._id,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        category: product.category,
+        description: product.description,
+        quantity: product.quantity,
+        inStock: product.inStock,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      }));
       return res.status(200).json({
         success: true,
         message: 'Products retrieved successfully',
-        data: result,
+        data: formattedResults,
       });
     }
   } catch (error: any) {
