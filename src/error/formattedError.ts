@@ -46,6 +46,5 @@ export const formatErrorResponse = (error: any): object => {
       {},
     );
   }
-
   return response;
 };
