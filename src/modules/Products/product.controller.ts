@@ -30,7 +30,7 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Failed to create the product',
       success: false,
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };
@@ -70,7 +70,7 @@ const getAllProducts = async (req: Request, res: Response): Promise<void> => {
       success: false,
       message: 'Failed to retrieve products',
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };
@@ -89,7 +89,7 @@ const getProductById = async (req: Request, res: Response) => {
       message: 'Failed to retrieve the product',
       success: false,
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };
@@ -112,7 +112,7 @@ const updateProduct = async (req: Request, res: Response) => {
       message: 'Failed to update the product',
       success: false,
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };
@@ -131,7 +131,7 @@ const deleteProduct = async (req: Request, res: Response) => {
       message: 'Failed to delete the product',
       success: false,
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };

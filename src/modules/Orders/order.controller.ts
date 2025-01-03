@@ -49,7 +49,7 @@ const createOrder = async (req: Request, res: Response) => {
       message: 'Validation failed',
       success: false,
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };
@@ -68,7 +68,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
       message: 'Failed to calculate revenue',
       success: false,
       error: formatErrorResponse(error),
-      stack: error.stack || 'No stack trace available',
+      //stack: error.stack || 'No stack trace available',
     });
   }
 };
